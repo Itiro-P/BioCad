@@ -9,7 +9,7 @@ A pasta `examples` contém os exemplos explicados de forma mais detalhada.
 BioCad foi feito para o trabalho final da disciplina de Análise e Projeto de Software. O intuito aqui é entender como os princípios SOLID + Demeter e composição vs herança são aplicados na prática.
 Para tal, escolhi os seguintes princípios:
 
-* Princípio da responsabilidade única (pru)
-* Princípio Aberto-Fechado (paf)
-* Lei de Demeter (ldd)
-* Composição vs herança (ch)
+* Princípio da responsabilidade única
+* Princípio Aberto-Fechado
+* Lei de Demeter
+* Composição vs herança
