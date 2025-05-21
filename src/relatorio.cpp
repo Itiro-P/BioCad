@@ -18,6 +18,6 @@ bool RelatorioManager::validarPeriodo(const std::tm &dataInicio, const std::tm &
     return tInicio < tFim;
 }
 
-RelatorioDVO RelatorioManager::gerarRelatorioFrequencia(const std::tm &dataInicio, const std::tm &dataFim, const std::vector<CheckInDVO> &checkInsPeriodo, const std::vector<CheckOutDVO> &checkOutsPeriodo) {
-    return RelatorioDVO(dataInicio, dataFim, checkInsPeriodo, checkOutsPeriodo);
+RelatorioBean RelatorioManager::gerarRelatorioFrequencia(const std::tm &dataInicio, const std::tm &dataFim, const std::vector<CheckInBean> &checkInsPeriodo, const std::vector<CheckOutBean> &checkOutsPeriodo) {
+    return RelatorioBean(dataInicio, dataFim, checkInsPeriodo, checkOutsPeriodo);
 }

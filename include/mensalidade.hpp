@@ -5,14 +5,14 @@
 #include <memory>
 #include <enums.hpp>
 
-class MensalidadeDVO {
+class MensalidadeBean {
     int id = -1;
     std::string cpfCliente = "";
     float valor = 150.f;
     Status status = Status::PENDENTE;
     public:
-    MensalidadeDVO() = default;
-    MensalidadeDVO(const std::string &cpfCliente, int id) : cpfCliente(cpfCliente) { this->cpfCliente.resize(14); };
+    MensalidadeBean() = default;
+    MensalidadeBean(const std::string &cpfCliente, int id) : cpfCliente(cpfCliente) { this->cpfCliente.resize(14); };
     std::string getCpfCliente() const& { return cpfCliente; };
     float getValor() const& { return valor; };
     Status getStatus() const& { return status; };
@@ -25,14 +25,14 @@ class MensalidadeDVO {
 };
 
 class MensalidadeDAO {
-    std::vector<std::unique_ptr<MensalidadeDVO>> mensalidades = {};
+    std::vector<std::unique_ptr<MensalidadeBean>> mensalidades = {};
     public:
     MensalidadeDAO() = default;
-    MensalidadeDAO(std::vector<MensalidadeDVO> &mensalidades);
-    void create(MensalidadeDVO &mensalidade);
-    void update(MensalidadeDVO &mensalidade);
-    MensalidadeDVO getMensalidadeDVO(int idMensalidade);
-    std::vector<MensalidadeDVO> getMensalidades(const std::string &cpfCliente) const&;
+    MensalidadeDAO(std::vector<MensalidadeBean> &mensalidades);
+    void create(MensalidadeBean &mensalidade);
+    void update(MensalidadeBean &mensalidade);
+    MensalidadeBean getMensalidadeBean(int idMensalidade);
+    std::vector<MensalidadeBean> getMensalidades(const std::string &cpfCliente) const&;
 };
 
 class MensalidadeManager {
@@ -42,9 +42,9 @@ class MensalidadeManager {
     MensalidadeManager(MensalidadeDAO &&mensalidadeDAO) : mensalidadeDAO(std::make_unique<MensalidadeDAO>(std::move(mensalidadeDAO))) {};
     bool validarId(int idMensalidade, const std::string &cpfCliente);
     bool validadrCpf(const std::string &cpfCliente);
-    MensalidadeDVO getMensalidadeDVO(int idMensalidade) const&;
-    std::vector<MensalidadeDVO> getMensalidades(const std::string &cpfCliente) const&;
+    MensalidadeBean getMensalidadeBean(int idMensalidade) const&;
+    std::vector<MensalidadeBean> getMensalidades(const std::string &cpfCliente) const&;
     std::string getRecibo(int idMensalidade);
-    void atualizarMensalidade(MensalidadeDVO &mensalidade);
-    void adicionarMensalidade(MensalidadeDVO &mensalidade);
+    void atualizarMensalidade(MensalidadeBean &mensalidade);
+    void adicionarMensalidade(MensalidadeBean &mensalidade);
 };

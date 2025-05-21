@@ -11,24 +11,24 @@
 #include <checkOut.hpp>
 #include <enums.hpp>
 
-class RelatorioDVO {
+class RelatorioBean {
     std::tm dataInicio;
     std::tm dataFim;
-    std::vector<CheckInDVO> checkInsPeriodo;
-    std::vector<CheckOutDVO> checkOutsPeriodo;
+    std::vector<CheckInBean> checkInsPeriodo;
+    std::vector<CheckOutBean> checkOutsPeriodo;
     public:
-    RelatorioDVO() = default;
-    RelatorioDVO(const std::tm &dataInicio, const std::tm &dataFim, const std::vector<CheckInDVO> &checkInsPeriodo, const std::vector<CheckOutDVO> &checkOutsPeriodo)
+    RelatorioBean() = default;
+    RelatorioBean(const std::tm &dataInicio, const std::tm &dataFim, const std::vector<CheckInBean> &checkInsPeriodo, const std::vector<CheckOutBean> &checkOutsPeriodo)
         : dataInicio(dataInicio), dataFim(dataFim), checkInsPeriodo(checkInsPeriodo), checkOutsPeriodo(checkOutsPeriodo) {};
     
     std::tm getDataInicio() const& { return dataInicio; };
     std::tm getDataFim() const& { return dataFim; };
-    std::vector<CheckInDVO> getCheckInsPeriodo() const& { return checkInsPeriodo; };
-    std::vector<CheckOutDVO> getCheckoutsPeriodo() const& { return checkOutsPeriodo; };
+    std::vector<CheckInBean> getCheckInsPeriodo() const& { return checkInsPeriodo; };
+    std::vector<CheckOutBean> getCheckoutsPeriodo() const& { return checkOutsPeriodo; };
 };
 
 class RelatorioManager {
     public:
     bool validarPeriodo(const std::tm &dataInicio, const std::tm &dataFim);
-    RelatorioDVO gerarRelatorioFrequencia(const std::tm &dataInicio, const std::tm &dataFim, const std::vector<CheckInDVO> &checkInsPeriodo, const std::vector<CheckOutDVO> &checkOutsPeriodo);
+    RelatorioBean gerarRelatorioFrequencia(const std::tm &dataInicio, const std::tm &dataFim, const std::vector<CheckInBean> &checkInsPeriodo, const std::vector<CheckOutBean> &checkOutsPeriodo);
 };

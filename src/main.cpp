@@ -33,7 +33,7 @@ int main() {
                     std::string endereco = lerString("Endereco: ");
                     
                     tm dataNasc = lerData("Data de nascimento (DD MM AAAA): ");
-                    ClienteDVO novoCliente(
+                    ClienteBean novoCliente(
                         cpf, nome, telefone, endereco,
                         dataNasc.tm_mday, dataNasc.tm_mon + 1, dataNasc.tm_year + 1900
                     );
@@ -62,7 +62,7 @@ int main() {
                     tm inicio = lerData("Data inicial (DD MM AAAA): ");
                     tm fim = lerData("Data final (DD MM AAAA): ");
                     
-                    RelatorioDVO relatorio = sistema.gerarRelatorioFrequencia(inicio, fim);
+                    RelatorioBean relatorio = sistema.gerarRelatorioFrequencia(inicio, fim);
                     std::cout << "\n=== RELATORIO ==="
                          << "\nPeriodo: " << std::put_time(&inicio, "%d/%m/%Y")
                          << " - " << std::put_time(&fim, "%d/%m/%Y")
@@ -79,7 +79,7 @@ int main() {
                 
                 case 5: {
                     std::string cpf = lerString("CPF do cliente: ");
-                    ClienteDVO cliente = sistema.pesquisarClienteCadastrado(cpf);
+                    ClienteBean cliente = sistema.pesquisarClienteCadastrado(cpf);
                     
                     std::cout << "\n=== DADOS DO CLIENTE ==="
                          << "\nCPF: " << cliente.getCpf()
@@ -97,7 +97,7 @@ int main() {
                 
                 case 7: {
                     std::string cpf = lerString("CPF do cliente: ");
-                    ContratoDVO contrato = sistema.selecionarContrato(cpf);
+                    ContratoBean contrato = sistema.selecionarContrato(cpf);
                     
                     std::cout << "\n=== OPCOES DE CONTRATO ==="
                          << "\n1 - Cancelar contrato"
@@ -127,7 +127,7 @@ int main() {
                 
                 case 8: {
                     std::string cpf = lerString("CPF do cliente: ");
-                    DescontoDVO desconto = sistema.calcularDescontoFidelidade(cpf);
+                    DescontoBean desconto = sistema.calcularDescontoFidelidade(cpf);
                     std::cout << "Desconto acumulado: R$" << std::fixed << std::setprecision(2) 
                          << desconto.getValor() << "\n";
                     break;

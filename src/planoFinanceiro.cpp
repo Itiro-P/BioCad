@@ -5,17 +5,17 @@
 #include <algorithm>
 #include <planoFinanceiro.hpp>
 
-PlanoFinanceiroDAO::PlanoFinanceiroDAO(std::vector<PlanoFinanceiroDVO> &planos) {
+PlanoFinanceiroDAO::PlanoFinanceiroDAO(std::vector<PlanoFinanceiroBean> &planos) {
     for(auto &it: planos) {
-        this->planos.push_back(std::make_unique<PlanoFinanceiroDVO>(std::move(it)));
+        this->planos.push_back(std::make_unique<PlanoFinanceiroBean>(std::move(it)));
     }
 }
 
-void PlanoFinanceiroDAO::create(PlanoFinanceiroDVO &plano) {
-    planos.push_back(std::make_unique<PlanoFinanceiroDVO>(std::move(plano)));
+void PlanoFinanceiroDAO::create(PlanoFinanceiroBean &plano) {
+    planos.push_back(std::make_unique<PlanoFinanceiroBean>(std::move(plano)));
 }
 
-void PlanoFinanceiroDAO::update(PlanoFinanceiroDVO &plano) {
+void PlanoFinanceiroDAO::update(PlanoFinanceiroBean &plano) {
     for(auto &&it: planos) {
         if(it->getNomePlano() == plano.getNomePlano()) {
             it->setTipoPlano(plano.getTipoPlano());
@@ -23,33 +23,33 @@ void PlanoFinanceiroDAO::update(PlanoFinanceiroDVO &plano) {
     }
 }
 
-void PlanoFinanceiroDAO::remover(PlanoFinanceiroDVO &plano) {
+void PlanoFinanceiroDAO::remover(PlanoFinanceiroBean &plano) {
     planos.erase(std::remove_if(planos.begin(), planos.end(),
-    [&plano](const std::unique_ptr<PlanoFinanceiroDVO>& it) { return it->getNomePlano() == plano.getNomePlano(); }), planos.end());
+    [&plano](const std::unique_ptr<PlanoFinanceiroBean>& it) { return it->getNomePlano() == plano.getNomePlano(); }), planos.end());
 }
 
-PlanoFinanceiroDVO PlanoFinanceiroDAO::getPlanoFinanceiroDVO(const std::string &nome) {
+PlanoFinanceiroBean PlanoFinanceiroDAO::getPlanoFinanceiroBean(const std::string &nome) {
     for(auto &it: planos) {
         if(it->getNomePlano() == nome) {
             return *it;
         }
     }
-    return PlanoFinanceiroDVO();
+    return PlanoFinanceiroBean();
 }
 
-void PlanoFinanceiroManager::adicionarPlano(PlanoFinanceiroDVO &plano) {
+void PlanoFinanceiroManager::adicionarPlano(PlanoFinanceiroBean &plano) {
     if(!plano.getNomePlano().empty()) {
         planoFinanceiroDAO->create(plano);
     }
 }
 
-void PlanoFinanceiroManager::atualizarPlano(PlanoFinanceiroDVO &plano) {
+void PlanoFinanceiroManager::atualizarPlano(PlanoFinanceiroBean &plano) {
     if(!plano.getNomePlano().empty()) {
         planoFinanceiroDAO->update(plano);
     }
 }
 
-void PlanoFinanceiroManager::removerPlano(PlanoFinanceiroDVO &plano) {
+void PlanoFinanceiroManager::removerPlano(PlanoFinanceiroBean &plano) {
     if(!plano.getNomePlano().empty()) {
         planoFinanceiroDAO->remover(plano);
     }

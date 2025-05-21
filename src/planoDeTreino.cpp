@@ -6,38 +6,38 @@
 #include <algorithm>
 #include <enums.hpp>
 
-PlanoDeTreinoDVO::PlanoDeTreinoDVO(const std::string &cpfCliente, const std::string &nomeCliente, const std::vector<std::string> &objetivosCliente, const std::vector<std::string> &condicaoMedicacliente, const std::string &tipoTreino)
+PlanoDeTreinoBean::PlanoDeTreinoBean(const std::string &cpfCliente, const std::string &nomeCliente, const std::vector<std::string> &objetivosCliente, const std::vector<std::string> &condicaoMedicacliente, const std::string &tipoTreino)
  : cpfCliente(cpfCliente), nomeCliente(nomeCliente), objetivosCliente(objetivosCliente), condicaoMedicaCliente(condicaoMedicaCliente), tipoTreino(tipoTreino) {
     this->cpfCliente.resize(14);
     this->nomeCliente.resize(150);
     this->tipoTreino.resize(150);
 }
 
-PlanoDeTreinoDAO::PlanoDeTreinoDAO(std::vector<PlanoDeTreinoDVO> &planos) {
+PlanoDeTreinoDAO::PlanoDeTreinoDAO(std::vector<PlanoDeTreinoBean> &planos) {
     for(auto &it: planos) {
-        this->planosDeTreino.push_back(std::make_unique<PlanoDeTreinoDVO>(it));
+        this->planosDeTreino.push_back(std::make_unique<PlanoDeTreinoBean>(it));
     }
 }
 
-void PlanoDeTreinoDAO::create(PlanoDeTreinoDVO &plano) {
-    if(!plano.getCpfCliente().empty()) planosDeTreino.push_back(std::make_unique<PlanoDeTreinoDVO>(std::move(plano)));
+void PlanoDeTreinoDAO::create(PlanoDeTreinoBean &plano) {
+    if(!plano.getCpfCliente().empty()) planosDeTreino.push_back(std::make_unique<PlanoDeTreinoBean>(std::move(plano)));
 }
 
-void PlanoDeTreinoDAO::remover(PlanoDeTreinoDVO &plano) {
+void PlanoDeTreinoDAO::remover(PlanoDeTreinoBean &plano) {
     planosDeTreino.erase(std::remove_if(planosDeTreino.begin(), planosDeTreino.end(),
-    [&plano](const std::unique_ptr<PlanoDeTreinoDVO>& it) { return it->getCpfCliente() == plano.getCpfCliente(); }), planosDeTreino.end());
+    [&plano](const std::unique_ptr<PlanoDeTreinoBean>& it) { return it->getCpfCliente() == plano.getCpfCliente(); }), planosDeTreino.end());
 }
 
-void PlanoDeTreinoDAO::update(PlanoDeTreinoDVO &plano) {
+void PlanoDeTreinoDAO::update(PlanoDeTreinoBean &plano) {
     for(auto &&it: planosDeTreino) {
         if(it->getCpfCliente() == plano.getCpfCliente()) {
-            it = std::make_unique<PlanoDeTreinoDVO>(std::move(plano));
+            it = std::make_unique<PlanoDeTreinoBean>(std::move(plano));
             break;
         }
     }
 }
 
-PlanoDeTreinoDVO PlanoDeTreinoDAO::getPlanoDeTreinoDVO(const std::string &cpfCliente) const& {
+PlanoDeTreinoBean PlanoDeTreinoDAO::getPlanoDeTreinoBean(const std::string &cpfCliente) const& {
     if(cpfCliente.size() == 14) {
         for(auto &&it: planosDeTreino) {
             if(it->getCpfCliente() == cpfCliente) {
@@ -45,28 +45,28 @@ PlanoDeTreinoDVO PlanoDeTreinoDAO::getPlanoDeTreinoDVO(const std::string &cpfCli
             }
         }
     }
-    return PlanoDeTreinoDVO();
+    return PlanoDeTreinoBean();
 }
 
 bool PlanoDeTreinoManager::validarCpf(const std::string &cpf) {
     bool existe = true;
     if(cpf.size() != 14) existe = false;
-    if(planoDeTreinoDAO->getPlanoDeTreinoDVO(cpf).getCpfCliente().empty()) existe = false;
+    if(planoDeTreinoDAO->getPlanoDeTreinoBean(cpf).getCpfCliente().empty()) existe = false;
     return existe;
 }
 
-void PlanoDeTreinoManager::adicionarPlanoDeTreino(PlanoDeTreinoDVO &plano) {
+void PlanoDeTreinoManager::adicionarPlanoDeTreino(PlanoDeTreinoBean &plano) {
     if(!plano.getCpfCliente().empty()) planoDeTreinoDAO->create(plano);
 }
 
-void PlanoDeTreinoManager::removerPlanoDeTreino(PlanoDeTreinoDVO &plano) {
+void PlanoDeTreinoManager::removerPlanoDeTreino(PlanoDeTreinoBean &plano) {
     if(!plano.getCpfCliente().empty()) planoDeTreinoDAO->remover(plano);
 }
 
-void PlanoDeTreinoManager::atualizarPlanoDeTreino(PlanoDeTreinoDVO &plano) {
+void PlanoDeTreinoManager::atualizarPlanoDeTreino(PlanoDeTreinoBean &plano) {
     if(!plano.getCpfCliente().empty()) planoDeTreinoDAO->update(plano);
 }
 
-PlanoDeTreinoDVO PlanoDeTreinoManager::getPlanoDeTreinoDVO(const std::string &cpf) const& {
-    return planoDeTreinoDAO->getPlanoDeTreinoDVO(cpf);
+PlanoDeTreinoBean PlanoDeTreinoManager::getPlanoDeTreinoBean(const std::string &cpf) const& {
+    return planoDeTreinoDAO->getPlanoDeTreinoBean(cpf);
 }

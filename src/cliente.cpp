@@ -3,7 +3,7 @@
 #include <chrono>
 #include <algorithm>
 
-ClienteDVO::ClienteDVO(const std::string &cpf, const std::string &nomeCompleto, const std::string &telefone, const std::string &endereco, int diaNascimento, int mesNascimento, int anoNascimento)
+ClienteBean::ClienteBean(const std::string &cpf, const std::string &nomeCompleto, const std::string &telefone, const std::string &endereco, int diaNascimento, int mesNascimento, int anoNascimento)
  : cpf(cpf), nomeCompleto(nomeCompleto), telefone(telefone), endereco(endereco) {
     std::tm tmp = {};
     this->cpf.resize(14);
@@ -17,27 +17,27 @@ ClienteDVO::ClienteDVO(const std::string &cpf, const std::string &nomeCompleto, 
     dataNascimento = std::chrono::system_clock::from_time_t(std::mktime(&tmp));
 }
 
-void ClienteDVO::setCpf(const std::string novoCpf) {
+void ClienteBean::setCpf(const std::string novoCpf) {
     cpf = novoCpf;
     cpf.resize(14);
 }
 
-void ClienteDVO::setNomeCompleto(const std::string novoNome) {
+void ClienteBean::setNomeCompleto(const std::string novoNome) {
     nomeCompleto = novoNome;
     nomeCompleto.resize(150);
 }
 
-void ClienteDVO::setTelefone(const std::string novotelefone) {
+void ClienteBean::setTelefone(const std::string novotelefone) {
     telefone = novotelefone;
     telefone.resize(11);
 }
 
-void ClienteDVO::setEndereco(const std::string novoEndereco) {
+void ClienteBean::setEndereco(const std::string novoEndereco) {
     endereco = novoEndereco;
     endereco.resize(150);
 }
 
-void ClienteDVO::setDataNascimento(int dia, int mes, int ano) {
+void ClienteBean::setDataNascimento(int dia, int mes, int ano) {
     std::tm tmp = {};
     tmp.tm_year = ano - 1900;
     tmp.tm_mon = mes - 1;
@@ -45,63 +45,63 @@ void ClienteDVO::setDataNascimento(int dia, int mes, int ano) {
     dataNascimento = std::chrono::system_clock::from_time_t(std::mktime(&tmp));
 }
 
-ClienteDAO::ClienteDAO(std::vector<ClienteDVO> &clientes) {
+ClienteDAO::ClienteDAO(std::vector<ClienteBean> &clientes) {
     for(auto &it: clientes) {
-        this->clientes.push_back(std::make_unique<ClienteDVO>(std::move(it)));
+        this->clientes.push_back(std::make_unique<ClienteBean>(std::move(it)));
     }
 }
 
-void ClienteDAO::create(const ClienteDVO &cliente) {
-    clientes.push_back(std::make_unique<ClienteDVO>(std::move(cliente)));
+void ClienteDAO::create(const ClienteBean &cliente) {
+    clientes.push_back(std::make_unique<ClienteBean>(std::move(cliente)));
 }
 
-void ClienteDAO::update(const ClienteDVO &cliente) {
+void ClienteDAO::update(const ClienteBean &cliente) {
     for(auto &&it: clientes) {
         if(it->getCpf() == cliente.getCpf()) {
-            it = std::make_unique<ClienteDVO>(std::move(cliente));
+            it = std::make_unique<ClienteBean>(std::move(cliente));
             break;
         }
     }
 }
 
-void ClienteDAO::remover(const ClienteDVO &cliente) {
+void ClienteDAO::remover(const ClienteBean &cliente) {
     clientes.erase(std::remove_if(clientes.begin(), clientes.end(),
-    [&cliente](const std::unique_ptr<ClienteDVO>& it) { return it->getCpf() == cliente.getCpf(); }), clientes.end());
+    [&cliente](const std::unique_ptr<ClienteBean>& it) { return it->getCpf() == cliente.getCpf(); }), clientes.end());
 }
 
-ClienteDVO ClienteDAO::getClienteDVO(const std::string& cpfCliente) const& {
+ClienteBean ClienteDAO::getClienteBean(const std::string& cpfCliente) const& {
     for(auto &&it: clientes) {
         if(it->getCpf() == cpfCliente) {
             return *it;
             break;
         }
     }
-    return ClienteDVO();
+    return ClienteBean();
 }
 
 ClienteManager::ClienteManager(ClienteDAO &&clienteDAO) {
     this->clienteDAO = std::make_unique<ClienteDAO>(std::move(clienteDAO));
 }
 
-ClienteDVO ClienteManager::getClienteDVO(const std::string &cpfCliente) const& {
-    return clienteDAO->getClienteDVO(cpfCliente);
+ClienteBean ClienteManager::getClienteBean(const std::string &cpfCliente) const& {
+    return clienteDAO->getClienteBean(cpfCliente);
 }
 
 bool ClienteManager::validarCpf(const std::string &cpf) {
     bool existe = true;
     if(cpf.size() != 14) existe = false;
-    if(clienteDAO->getClienteDVO(cpf).getCpf().empty()) existe = false;
+    if(clienteDAO->getClienteBean(cpf).getCpf().empty()) existe = false;
     return existe;
 }
 
-void ClienteManager::adicionarCliente(ClienteDVO &cliente) {
+void ClienteManager::adicionarCliente(ClienteBean &cliente) {
     if(!cliente.getCpf().empty()) clienteDAO->create(cliente);
 }
 
-void ClienteManager::atualizarCliente(ClienteDVO &cliente) {
+void ClienteManager::atualizarCliente(ClienteBean &cliente) {
     if(!cliente.getCpf().empty()) clienteDAO->update(cliente);
 }
 
-void ClienteManager::removerCliente(ClienteDVO &cliente) {
+void ClienteManager::removerCliente(ClienteBean &cliente) {
     if(!cliente.getCpf().empty()) clienteDAO->remover(cliente);
 }

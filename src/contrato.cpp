@@ -5,8 +5,8 @@
 #include <contrato.hpp>
 #include <planoFinanceiro.hpp>
 
-ContratoDVO::ContratoDVO(const std::string &cpfCliente, const std::string &nomeCliente, const CondicaoContrato &condicao, const PlanoFinanceiroDVO &planoDVO, int dia, int mes, int ano) 
- : cpfCliente(cpfCliente), nomeCliente(nomeCliente), condicao(condicao), plano(std::make_shared<PlanoFinanceiroDVO>(planoDVO)) {
+ContratoBean::ContratoBean(const std::string &cpfCliente, const std::string &nomeCliente, const CondicaoContrato &condicao, const PlanoFinanceiroBean &planoBean, int dia, int mes, int ano) 
+ : cpfCliente(cpfCliente), nomeCliente(nomeCliente), condicao(condicao), plano(std::make_shared<PlanoFinanceiroBean>(planoBean)) {
     this->cpfCliente.resize(14);
     this->nomeCliente.resize(150);
     std::tm tmp = {};
@@ -16,19 +16,19 @@ ContratoDVO::ContratoDVO(const std::string &cpfCliente, const std::string &nomeC
     dataFim = std::chrono::system_clock::from_time_t(std::mktime(&tmp));
 }
 
-void ContratoDVO::setCpfCliente(const std::string &novoCpf) {
+void ContratoBean::setCpfCliente(const std::string &novoCpf) {
     if(!novoCpf.empty()) cpfCliente = novoCpf;
 }
 
-void ContratoDVO::setNomeCliente(const std::string &novoNome) {
+void ContratoBean::setNomeCliente(const std::string &novoNome) {
     if(!novoNome.empty()) nomeCliente = novoNome;
 }
 
-void ContratoDVO::setCondicao(const CondicaoContrato &novaCondicao) {
+void ContratoBean::setCondicao(const CondicaoContrato &novaCondicao) {
     condicao = novaCondicao;
 }
 
-void ContratoDVO::setDataFim(int dia, int mes, int ano) {
+void ContratoBean::setDataFim(int dia, int mes, int ano) {
     std::tm tmp = {};
     tmp.tm_year = ano - 1900;
     tmp.tm_mon = mes - 1;
@@ -36,62 +36,62 @@ void ContratoDVO::setDataFim(int dia, int mes, int ano) {
     dataFim = std::chrono::system_clock::from_time_t(std::mktime(&tmp));
 }
 
-ContratoDAO::ContratoDAO(std::vector<ContratoDVO> &contratos) {
+ContratoDAO::ContratoDAO(std::vector<ContratoBean> &contratos) {
     for(auto &it: contratos) {
-        this->contratos.push_back(std::make_unique<ContratoDVO>(std::move(it)));
+        this->contratos.push_back(std::make_unique<ContratoBean>(std::move(it)));
     }
 }
 
-void ContratoDAO::create(ContratoDVO &contrato) {
+void ContratoDAO::create(ContratoBean &contrato) {
     if(!contrato.getCpfCliente().empty()) {
-        contratos.push_back(std::make_unique<ContratoDVO>(std::move(contrato)));
+        contratos.push_back(std::make_unique<ContratoBean>(std::move(contrato)));
     }
 }
 
-void ContratoDAO::update(ContratoDVO &contrato) {
+void ContratoDAO::update(ContratoBean &contrato) {
     if(!contrato.getCpfCliente().empty()) {
         for(auto &&it: contratos) {
             if(it->getCpfCliente() == contrato.getCpfCliente()  &&it->getCondicao() == CondicaoContrato::ATIVO) {
-                it = std::make_unique<ContratoDVO>(std::move(contrato));
+                it = std::make_unique<ContratoBean>(std::move(contrato));
                 break;
             }
         }
     }
 }
 
-ContratoDVO ContratoDAO::getContratoDVO(const std::string &cpfCliente) const& {
+ContratoBean ContratoDAO::getContratoBean(const std::string &cpfCliente) const& {
     for(auto &&it: contratos) {
         if(it->getCpfCliente() == cpfCliente) return *it;
     }
-    return ContratoDVO();
+    return ContratoBean();
 }
 
 bool ContratoManager::validarCpf(const std::string &cpf) {
     bool existe = false;
-    if(!contratoDAO->getContratoDVO(cpf).getCpfCliente().empty()) existe = true;
+    if(!contratoDAO->getContratoBean(cpf).getCpfCliente().empty()) existe = true;
     return existe;
 }
 
-bool ContratoManager::validarContrato(const ContratoDVO &contrato) {
+bool ContratoManager::validarContrato(const ContratoBean &contrato) {
     bool existe = false;
-    if(!contratoDAO->getContratoDVO(contrato.getCpfCliente()).getCpfCliente().empty()) existe = true;
+    if(!contratoDAO->getContratoBean(contrato.getCpfCliente()).getCpfCliente().empty()) existe = true;
     return existe;
 }
 
-void ContratoManager::salvarContrato(ContratoDVO &contrato) {
+void ContratoManager::salvarContrato(ContratoBean &contrato) {
     if(!contrato.getCpfCliente().empty()) {
         contratoDAO->create(contrato);
     }
 }
 
-void ContratoManager::atualizarContrato(ContratoDVO &contrato) {
+void ContratoManager::atualizarContrato(ContratoBean &contrato) {
     if(!contrato.getCpfCliente().empty()) {
         contratoDAO->update(contrato);
     }
 }
 
-bool ContratoManager::setContratoCancelado(ContratoDVO &contrato) {
-    ContratoDVO temp = contratoDAO->getContratoDVO(contrato.getCpfCliente());
+bool ContratoManager::setContratoCancelado(ContratoBean &contrato) {
+    ContratoBean temp = contratoDAO->getContratoBean(contrato.getCpfCliente());
     if(!temp.getCpfCliente().empty()) {
         temp.setCondicao(CondicaoContrato::CANCELADO);
         contratoDAO->update(temp);
@@ -100,8 +100,8 @@ bool ContratoManager::setContratoCancelado(ContratoDVO &contrato) {
     return false;
 }
 
-ContratoDVO ContratoManager::renovarContrato(ContratoDVO &contrato, const std::tm novaDataFim) const& {
-    ContratoDVO temp = contratoDAO->getContratoDVO(contrato.getCpfCliente());
+ContratoBean ContratoManager::renovarContrato(ContratoBean &contrato, const std::tm novaDataFim) const& {
+    ContratoBean temp = contratoDAO->getContratoBean(contrato.getCpfCliente());
     if(!temp.getCpfCliente().empty()) {
         temp.setDataFim(novaDataFim.tm_mday, novaDataFim.tm_mon, novaDataFim.tm_year + 1900);
         contratoDAO->update(temp);
@@ -109,6 +109,6 @@ ContratoDVO ContratoManager::renovarContrato(ContratoDVO &contrato, const std::t
     return temp;
 }
 
-ContratoDVO ContratoManager::getContratoDVO(const std::string &cpfCliente) const& {
-    return contratoDAO->getContratoDVO(cpfCliente);
+ContratoBean ContratoManager::getContratoBean(const std::string &cpfCliente) const& {
+    return contratoDAO->getContratoBean(cpfCliente);
 }

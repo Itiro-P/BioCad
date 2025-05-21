@@ -6,15 +6,15 @@
 #include <enums.hpp>
 
 
-class PlanoDeTreinoDVO {
+class PlanoDeTreinoBean {
     std::string cpfCliente = "";
     std::string nomeCliente = "";
     std::vector<std::string> objetivosCliente = {"Ganho de massa"};
     std::vector<std::string> condicaoMedicaCliente = { "Nenhuma" };
     std::string tipoTreino = "Flexao a rodo";
     public:
-    PlanoDeTreinoDVO() = default;
-    PlanoDeTreinoDVO(const std::string &cpfCliente, const std::string &nomeCliente, const std::vector<std::string> &objetivosCliente, const std::vector<std::string> &condicaoMedicacliente, const std::string &tipoTreino);
+    PlanoDeTreinoBean() = default;
+    PlanoDeTreinoBean(const std::string &cpfCliente, const std::string &nomeCliente, const std::vector<std::string> &objetivosCliente, const std::vector<std::string> &condicaoMedicacliente, const std::string &tipoTreino);
     std::string getCpfCliente() const& { return cpfCliente; };
     std::string getNomeCliente() const& { return nomeCliente; };
     std::vector<std::string> getObjetivosCliente() const& { return objetivosCliente; };
@@ -29,14 +29,14 @@ class PlanoDeTreinoDVO {
 };
 
 class PlanoDeTreinoDAO {
-    std::vector<std::unique_ptr<PlanoDeTreinoDVO>> planosDeTreino;
+    std::vector<std::unique_ptr<PlanoDeTreinoBean>> planosDeTreino;
     public:
     PlanoDeTreinoDAO() = default;
-    PlanoDeTreinoDAO(std::vector<PlanoDeTreinoDVO> &planos);
-    void create(PlanoDeTreinoDVO &plano);
-    void remover(PlanoDeTreinoDVO &plano);
-    void update(PlanoDeTreinoDVO &plano);
-    PlanoDeTreinoDVO getPlanoDeTreinoDVO(const std::string &cpfCliente) const&;
+    PlanoDeTreinoDAO(std::vector<PlanoDeTreinoBean> &planos);
+    void create(PlanoDeTreinoBean &plano);
+    void remover(PlanoDeTreinoBean &plano);
+    void update(PlanoDeTreinoBean &plano);
+    PlanoDeTreinoBean getPlanoDeTreinoBean(const std::string &cpfCliente) const&;
 };
 
 class PlanoDeTreinoManager {
@@ -44,8 +44,8 @@ class PlanoDeTreinoManager {
     public:
     PlanoDeTreinoManager(PlanoDeTreinoDAO &&planoDeTreinoDAO) : planoDeTreinoDAO(std::make_unique<PlanoDeTreinoDAO>(std::move(planoDeTreinoDAO))) {};
     bool validarCpf(const std::string &cpf);
-    void adicionarPlanoDeTreino(PlanoDeTreinoDVO &plano);
-    void removerPlanoDeTreino(PlanoDeTreinoDVO &plano);
-    void atualizarPlanoDeTreino(PlanoDeTreinoDVO &plano);
-    PlanoDeTreinoDVO getPlanoDeTreinoDVO(const std::string &cpf) const&;
+    void adicionarPlanoDeTreino(PlanoDeTreinoBean &plano);
+    void removerPlanoDeTreino(PlanoDeTreinoBean &plano);
+    void atualizarPlanoDeTreino(PlanoDeTreinoBean &plano);
+    PlanoDeTreinoBean getPlanoDeTreinoBean(const std::string &cpf) const&;
 };

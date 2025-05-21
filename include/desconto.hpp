@@ -7,11 +7,11 @@
 #include <enums.hpp>
 #include <mensalidade.hpp>
 
-class DescontoDVO {
+class DescontoBean {
     float valor = 0.f;
     public:
-    DescontoDVO() = default;
-    DescontoDVO(float valor) : valor(valor) {};
+    DescontoBean() = default;
+    DescontoBean(float valor) : valor(valor) {};
     float getValor() const& { return valor; };
     void setValor(float novoValor) { valor = novoValor; };
 };
@@ -19,6 +19,6 @@ class DescontoDVO {
 class DescontoManager {
     public:
     DescontoManager() = default;
-    bool validarDesconto(const MensalidadeDVO &mensalidade);
-    float calcularDesconto(const MensalidadeDVO &mensalidade);
+    bool validarDesconto(const MensalidadeBean &mensalidade);
+    float calcularDesconto(const MensalidadeBean &mensalidade);
 };

@@ -10,68 +10,68 @@
 
 namespace TestData {
 
-    // Instâncias de CheckInDVO
-    extern CheckInDVO checkIn1;
-    extern CheckInDVO checkIn2;
-    extern CheckInDVO checkIn3;
-    extern CheckInDVO checkIn4;
-    extern CheckInDVO checkIn5;
-    extern CheckInDVO checkIn6;
+    // Instâncias de CheckInBean
+    extern CheckInBean checkIn1;
+    extern CheckInBean checkIn2;
+    extern CheckInBean checkIn3;
+    extern CheckInBean checkIn4;
+    extern CheckInBean checkIn5;
+    extern CheckInBean checkIn6;
 
-    // Instâncias de CheckOutDVO
-    extern CheckOutDVO checkOut1;
-    extern CheckOutDVO checkOut2;
-    extern CheckOutDVO checkOut3;
-    extern CheckOutDVO checkOut4;
-    extern CheckOutDVO checkOut5;
-    extern CheckOutDVO checkOut6;
+    // Instâncias de CheckOutBean
+    extern CheckOutBean checkOut1;
+    extern CheckOutBean checkOut2;
+    extern CheckOutBean checkOut3;
+    extern CheckOutBean checkOut4;
+    extern CheckOutBean checkOut5;
+    extern CheckOutBean checkOut6;
 
-    // Instâncias de ClienteDVO
-    extern ClienteDVO cliente1;
-    extern ClienteDVO cliente2;
-    extern ClienteDVO cliente3;
-    extern ClienteDVO cliente4;
-    extern ClienteDVO cliente5;
-    extern ClienteDVO cliente6;
+    // Instâncias de ClienteBean
+    extern ClienteBean cliente1;
+    extern ClienteBean cliente2;
+    extern ClienteBean cliente3;
+    extern ClienteBean cliente4;
+    extern ClienteBean cliente5;
+    extern ClienteBean cliente6;
 
-    // Instâncias de PlanoFinanceiroDVO
-    extern PlanoFinanceiroDVO plano1;
-    extern PlanoFinanceiroDVO plano2;
-    extern PlanoFinanceiroDVO plano3;
-    extern PlanoFinanceiroDVO plano4;
-    extern PlanoFinanceiroDVO plano5;
-    extern PlanoFinanceiroDVO plano6;
+    // Instâncias de PlanoFinanceiroBean
+    extern PlanoFinanceiroBean plano1;
+    extern PlanoFinanceiroBean plano2;
+    extern PlanoFinanceiroBean plano3;
+    extern PlanoFinanceiroBean plano4;
+    extern PlanoFinanceiroBean plano5;
+    extern PlanoFinanceiroBean plano6;
 
-    // Instâncias de ContratoDVO
-    extern ContratoDVO contrato1;
-    extern ContratoDVO contrato2;
-    extern ContratoDVO contrato3;
-    extern ContratoDVO contrato4;
-    extern ContratoDVO contrato5;
-    extern ContratoDVO contrato6;
+    // Instâncias de ContratoBean
+    extern ContratoBean contrato1;
+    extern ContratoBean contrato2;
+    extern ContratoBean contrato3;
+    extern ContratoBean contrato4;
+    extern ContratoBean contrato5;
+    extern ContratoBean contrato6;
 
-    // Instâncias de MensalidadeDVO
-    extern MensalidadeDVO mensalidade1;
-    extern MensalidadeDVO mensalidade2;
-    extern MensalidadeDVO mensalidade3;
-    extern MensalidadeDVO mensalidade4;
-    extern MensalidadeDVO mensalidade5;
-    extern MensalidadeDVO mensalidade6;
+    // Instâncias de MensalidadeBean
+    extern MensalidadeBean mensalidade1;
+    extern MensalidadeBean mensalidade2;
+    extern MensalidadeBean mensalidade3;
+    extern MensalidadeBean mensalidade4;
+    extern MensalidadeBean mensalidade5;
+    extern MensalidadeBean mensalidade6;
 
-    // Instâncias de PlanoDeTreinoDVO
-    extern PlanoDeTreinoDVO treino1;
-    extern PlanoDeTreinoDVO treino2;
-    extern PlanoDeTreinoDVO treino3;
-    extern PlanoDeTreinoDVO treino4;
-    extern PlanoDeTreinoDVO treino5;
-    extern PlanoDeTreinoDVO treino6;
+    // Instâncias de PlanoDeTreinoBean
+    extern PlanoDeTreinoBean treino1;
+    extern PlanoDeTreinoBean treino2;
+    extern PlanoDeTreinoBean treino3;
+    extern PlanoDeTreinoBean treino4;
+    extern PlanoDeTreinoBean treino5;
+    extern PlanoDeTreinoBean treino6;
 
-    // Instâncias de RelatorioDVO
-    extern RelatorioDVO relatorio1;
-    extern RelatorioDVO relatorio2;
-    extern RelatorioDVO relatorio3;
-    extern RelatorioDVO relatorio4;
-    extern RelatorioDVO relatorio5;
-    extern RelatorioDVO relatorio6;
+    // Instâncias de RelatorioBean
+    extern RelatorioBean relatorio1;
+    extern RelatorioBean relatorio2;
+    extern RelatorioBean relatorio3;
+    extern RelatorioBean relatorio4;
+    extern RelatorioBean relatorio5;
+    extern RelatorioBean relatorio6;
 
 }

@@ -6,12 +6,12 @@
 #include <optional>
 #include <enums.hpp>
 
-class PlanoFinanceiroDVO {
+class PlanoFinanceiroBean {
     std::string nomePlano = "";
     TipoPlanoFinanceiro tipoPlano = TipoPlanoFinanceiro::MENSAL;
     public:
-    PlanoFinanceiroDVO() = default;
-    PlanoFinanceiroDVO(const std::string &nomePlano, const TipoPlanoFinanceiro &tipoPlano) : nomePlano(nomePlano), tipoPlano(tipoPlano) {};
+    PlanoFinanceiroBean() = default;
+    PlanoFinanceiroBean(const std::string &nomePlano, const TipoPlanoFinanceiro &tipoPlano) : nomePlano(nomePlano), tipoPlano(tipoPlano) {};
 
     std::string getNomePlano() const& { return nomePlano; };
     TipoPlanoFinanceiro getTipoPlano() const& { return tipoPlano; };
@@ -21,14 +21,14 @@ class PlanoFinanceiroDVO {
 };
 
 class PlanoFinanceiroDAO {
-    std::vector<std::unique_ptr<PlanoFinanceiroDVO>> planos = {}; 
+    std::vector<std::unique_ptr<PlanoFinanceiroBean>> planos = {}; 
     public:
     PlanoFinanceiroDAO() = default;
-    PlanoFinanceiroDAO(std::vector<PlanoFinanceiroDVO> &planos);
-    void create(PlanoFinanceiroDVO &plano);
-    void update(PlanoFinanceiroDVO &plano);
-    void remover(PlanoFinanceiroDVO &plano);
-    PlanoFinanceiroDVO getPlanoFinanceiroDVO(const std::string &nome);
+    PlanoFinanceiroDAO(std::vector<PlanoFinanceiroBean> &planos);
+    void create(PlanoFinanceiroBean &plano);
+    void update(PlanoFinanceiroBean &plano);
+    void remover(PlanoFinanceiroBean &plano);
+    PlanoFinanceiroBean getPlanoFinanceiroBean(const std::string &nome);
 };
 
 class PlanoFinanceiroManager {
@@ -36,8 +36,8 @@ class PlanoFinanceiroManager {
     public:
     PlanoFinanceiroManager() = default;
     PlanoFinanceiroManager(PlanoFinanceiroDAO &&planoFinanceiroDAO) : planoFinanceiroDAO(std::make_unique<PlanoFinanceiroDAO>(std::move(planoFinanceiroDAO))) {};
-    void adicionarPlano(PlanoFinanceiroDVO &plano);
-    void atualizarPlano(PlanoFinanceiroDVO &plano);
-    void removerPlano(PlanoFinanceiroDVO &plano);
-    PlanoFinanceiroDVO getPlanoFinanceiroDVO(const std::string &nome) const& ;
+    void adicionarPlano(PlanoFinanceiroBean &plano);
+    void atualizarPlano(PlanoFinanceiroBean &plano);
+    void removerPlano(PlanoFinanceiroBean &plano);
+    PlanoFinanceiroBean getPlanoFinanceiroBean(const std::string &nome) const& ;
 };

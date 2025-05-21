@@ -7,10 +7,10 @@
 #include <enums.hpp>
 #include <mensalidade.hpp>
 
-bool DescontoManager::validarDesconto(const MensalidadeDVO &mensalidade) {
+bool DescontoManager::validarDesconto(const MensalidadeBean &mensalidade) {
     return mensalidade.getValor() > 130.f && mensalidade.getId()&1;
 }
 
-float DescontoManager::calcularDesconto(const MensalidadeDVO &mensalidade) {
+float DescontoManager::calcularDesconto(const MensalidadeBean &mensalidade) {
     return mensalidade.getValor()/10.f;
 }

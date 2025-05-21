@@ -5,7 +5,7 @@
 #include <memory>
 #include <chrono>
 
-class ClienteDVO {
+class ClienteBean {
     std::string cpf = "";
     std::string nomeCompleto = "";
     std::string telefone = "";
@@ -14,8 +14,8 @@ class ClienteDVO {
     std::chrono::system_clock::time_point dataCadastro = std::chrono::system_clock::now();
 
     public:
-    ClienteDVO() = default;
-    ClienteDVO(const std::string &cpf, const std::string &nomeCompleto, const std::string &telefone, const std::string &endereco, int diaNascimento, int mesNascimento, int anoNascimento);
+    ClienteBean() = default;
+    ClienteBean(const std::string &cpf, const std::string &nomeCompleto, const std::string &telefone, const std::string &endereco, int diaNascimento, int mesNascimento, int anoNascimento);
 
     std::string getCpf() const& { return cpf; };
     std::string getNomeCompleto() const& { return nomeCompleto; };
@@ -32,14 +32,14 @@ class ClienteDVO {
 };
 
 class ClienteDAO {
-    std::vector<std::unique_ptr<ClienteDVO>> clientes = {};
+    std::vector<std::unique_ptr<ClienteBean>> clientes = {};
     public:
     ClienteDAO() = default;
-    ClienteDAO(std::vector<ClienteDVO> &clientes);
-    void create(const ClienteDVO &cliente);
-    void update(const ClienteDVO &cliente);
-    void remover(const ClienteDVO &cliente);
-    ClienteDVO getClienteDVO(const std::string& cpfCliente) const&;
+    ClienteDAO(std::vector<ClienteBean> &clientes);
+    void create(const ClienteBean &cliente);
+    void update(const ClienteBean &cliente);
+    void remover(const ClienteBean &cliente);
+    ClienteBean getClienteBean(const std::string& cpfCliente) const&;
 };
 
 class ClienteManager {
@@ -47,9 +47,9 @@ class ClienteManager {
     public:
     ClienteManager() = default;
     ClienteManager(ClienteDAO &&clienteDAO);
-    ClienteDVO getClienteDVO(const std::string &cpfCliente) const&;
+    ClienteBean getClienteBean(const std::string &cpfCliente) const&;
     bool validarCpf(const std::string &cpf);
-    void adicionarCliente(ClienteDVO &cliente);
-    void removerCliente(ClienteDVO &cliente);
-    void atualizarCliente(ClienteDVO &cliente);
+    void adicionarCliente(ClienteBean &cliente);
+    void removerCliente(ClienteBean &cliente);
+    void atualizarCliente(ClienteBean &cliente);
 };

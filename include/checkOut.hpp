@@ -9,22 +9,22 @@
 #include <chrono>
 #include <enums.hpp>
 
-class CheckOutDVO {
+class CheckOutBean {
     std::string cpfCliente = "";
     std::tm dataHora;
     public:
-    CheckOutDVO() =  default;
-    CheckOutDVO(const std::string &cpfCliente);
+    CheckOutBean() =  default;
+    CheckOutBean(const std::string &cpfCliente);
     std::string getCpfCliente() { return cpfCliente; };
     std::tm getDataHora() const&;
 };
 
 class CheckOutDAO {
-    std::vector<std::unique_ptr<CheckOutDVO>> checkOuts;
+    std::vector<std::unique_ptr<CheckOutBean>> checkOuts;
     public:
     CheckOutDAO() = default;
     void create(const std::string &cpfCliente);
-    std::vector<CheckOutDVO> getCheckOutsDVO() const&;
+    std::vector<CheckOutBean> getCheckOutsBean() const&;
 };
 
 class CheckOutManager {
@@ -33,5 +33,5 @@ class CheckOutManager {
     CheckOutManager() = default;
     CheckOutManager(CheckOutDAO &&checkOut) : checkOutDAO(std::make_unique<CheckOutDAO>(std::move(checkOut))) {};
     void adicionarCheckOut(const std::string &cpfCliente) { if(!cpfCliente.empty()) checkOutDAO->create(cpfCliente); };
-    std::vector<CheckOutDVO> getCheckOutsPeriodo(const std::tm &dataInicio, const std::tm &dataFim);
+    std::vector<CheckOutBean> getCheckOutsPeriodo(const std::tm &dataInicio, const std::tm &dataFim);
 };

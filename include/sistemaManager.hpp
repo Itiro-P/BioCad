@@ -37,15 +37,15 @@ public:
         , descontoManager(std::make_unique<DescontoManager>())
         , relatorioManager(std::make_unique<RelatorioManager>()) {}
 
-    ClienteDVO pesquisarClienteCadastrado(const std::string& cpfCliente) {
-        return clienteManager->getClienteDVO(cpfCliente);
+    ClienteBean pesquisarClienteCadastrado(const std::string& cpfCliente) {
+        return clienteManager->getClienteBean(cpfCliente);
     }
 
-    ContratoDVO selecionarContrato(const std::string& cpfCliente) {
-        return contratoManager->getContratoDVO(cpfCliente);
+    ContratoBean selecionarContrato(const std::string& cpfCliente) {
+        return contratoManager->getContratoBean(cpfCliente);
     }
 
-    void imprimirContrato(const ContratoDVO& contrato) {
+    void imprimirContrato(const ContratoBean& contrato) {
         const auto plano = contrato.getPlano();
         std::cout << "=== Contrato ===\n"
                   << "Cliente: " << contrato.getNomeCliente() << "\n"
@@ -55,37 +55,37 @@ public:
                   << "Status: " << static_cast<int>(contrato.getCondicao()) << "\n";
     }
 
-    ContratoDVO digitalizarContrato(ContratoDVO contrato) {
+    ContratoBean digitalizarContrato(ContratoBean contrato) {
         contratoManager->atualizarContrato(contrato);
-        return contratoManager->getContratoDVO(contrato.getCpfCliente());
+        return contratoManager->getContratoBean(contrato.getCpfCliente());
     }
 
-    void cancelarContrato(ContratoDVO& contrato) {
+    void cancelarContrato(ContratoBean& contrato) {
         contratoManager->setContratoCancelado(contrato);
     }
 
-    ContratoDVO renovarContrato(ContratoDVO& contrato, const std::tm& novaDataFim) {
+    ContratoBean renovarContrato(ContratoBean& contrato, const std::tm& novaDataFim) {
         return contratoManager->renovarContrato(contrato, novaDataFim);
     }
 
-    MensalidadeDVO exibirMensalidade(const std::string& cpfCliente) {
+    MensalidadeBean exibirMensalidade(const std::string& cpfCliente) {
         auto mensalidades = mensalidadeManager->getMensalidades(cpfCliente);
-        return !mensalidades.empty() ? mensalidades.back() : MensalidadeDVO();
+        return !mensalidades.empty() ? mensalidades.back() : MensalidadeBean();
     }
 
-    DescontoDVO calcularDescontoFidelidade(const std::string& cpfCliente) {
+    DescontoBean calcularDescontoFidelidade(const std::string& cpfCliente) {
         float total = 0.0f;
         for (const auto& mensalidade : mensalidadeManager->getMensalidades(cpfCliente)) {
             if (descontoManager->validarDesconto(mensalidade)) {
                 total += descontoManager->calcularDesconto(mensalidade);
             }
         }
-        return DescontoDVO(total);
+        return DescontoBean(total);
     }
 
     void pagarMensalidade(int idMensalidade, const std::string& cpfCliente) {
         if (mensalidadeManager->validarId(idMensalidade, cpfCliente)) {
-            auto mensalidade = mensalidadeManager->getMensalidadeDVO(idMensalidade);
+            auto mensalidade = mensalidadeManager->getMensalidadeBean(idMensalidade);
             mensalidade.setStatus(Status::PAGO);
             mensalidadeManager->atualizarMensalidade(mensalidade);
         }
@@ -103,7 +103,7 @@ public:
         checkOutManager->adicionarCheckOut(cpfCliente);
     }
 
-    RelatorioDVO gerarRelatorioFrequencia(const std::tm& inicio, const std::tm& fim) {
+    RelatorioBean gerarRelatorioFrequencia(const std::tm& inicio, const std::tm& fim) {
         auto checkIns = checkInManager->getCheckInsPeriodo(inicio, fim);
         auto checkOuts = checkOutManager->getCheckOutsPeriodo(inicio, fim);
         return relatorioManager->gerarRelatorioFrequencia(inicio, fim, checkIns, checkOuts);
