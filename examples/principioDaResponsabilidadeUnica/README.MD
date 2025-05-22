@@ -6,32 +6,32 @@ Tomamos como exemplo.
 ```cpp
     // Código resumido em certas partes para melhor leitura.
 
-    class CheckInBean {
+    class CheckInBean: public ICheckInBean {
         std::string cpfCliente = "";
         std::tm dataHora;
         public:
-        CheckInBean() =  default;
+        CheckInBean() = default;
         CheckInBean(const std::string &cpfCliente);
-        std::string getCpfCliente();
-        std::tm getDataHora():
-    }
+        std::string getCpfCliente() override { return cpfCliente; };
+        std::tm getDataHora() override;
+    };
 
-    class CheckInDAO {
+    class CheckInDAO: public ICheckInDAO {
         std::vector<std::unique_ptr<CheckInBean>> checkIns;
         public:
         CheckInDAO() = default;
-        void create(const std::string &cpfCliente);
-        std::vector<CheckInBean> getCheckInsBean();
-    }
+        void create(const std::string &cpfCliente) override;
+        std::vector<std::unique_ptr<ICheckInBean>> getCheckInsBean() override;
+    };
 
-    class CheckInManager {
-        std::unique_ptr<CheckInDAO> checkInDAO = nullptr;
+    class CheckInManager: public ICheckInManager{
+        std::unique_ptr<ICheckInDAO> checkInDAO = nullptr;
         public:
         CheckInManager() = default;
-        CheckInManager(CheckInDAO &checkIn);
-        void adicionarCheckIn(const std::string &cpfCliente);
-        std::vector<CheckInBean> getCheckInsPeriodo(const std::tm &dataInicio, const std::tm &dataFim);
-    }
+        CheckInManager(CheckInDAO &&checkIn) : checkInDAO(std::make_unique<CheckInDAO>(std::move(checkIn))) {};
+        void adicionarCheckIn(const std::string &cpfCliente) override { if(!cpfCliente.empty()) checkInDAO->create(cpfCliente); };
+        std::vector<std::unique_ptr<ICheckInBean>> getCheckInsPeriodo(const std::tm &dataInicio, const std::tm &dataFim) override;
+    };
 ```
 
 Aqui fica explícito que todas as classes desempenham uma função:

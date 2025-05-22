@@ -22,7 +22,7 @@ CheckInBean::CheckInBean(const std::string &cpfCliente) : cpfCliente(cpfCliente)
     }(std::chrono::system_clock::to_time_t(std::chrono::system_clock::now()));
 }
 
-std::tm CheckInBean::getDataHora() const& {
+std::tm CheckInBean::getDataHora() {
     return dataHora;
 }
 
@@ -30,27 +30,27 @@ void CheckInDAO::create(const std::string &cpfCliente) {
     checkIns.push_back(std::make_unique<CheckInBean>(std::move(CheckInBean(cpfCliente))));
 }
 
-std::vector<CheckInBean> CheckInDAO::getCheckInsBean() const& {
-    std::vector<CheckInBean> res;
+std::vector<std::unique_ptr<ICheckInBean>> CheckInDAO::getCheckInsBean() {
+    std::vector<std::unique_ptr<ICheckInBean>> res;
     res.reserve(checkIns.size());
     for(const auto &it: checkIns) {
-        res.push_back(*it);
+        res.push_back(std::make_unique<ICheckInBean>(std::move(it)));
     }
     return res;
 }
 
-std::vector<CheckInBean> CheckInManager::getCheckInsPeriodo(const std::tm &dataInicio, const std::tm &dataFim) {
+std::vector<std::unique_ptr<ICheckInBean>> CheckInManager::getCheckInsPeriodo(const std::tm &dataInicio, const std::tm &dataFim) {
     std::tm inicioCopia = dataInicio;
     std::tm fimCopia = dataFim;
 
     std::time_t tInicio = std::mktime(&inicioCopia);
     std::time_t tFim = std::mktime(&fimCopia);
-    std::vector<CheckInBean> res;
+    std::vector<std::unique_ptr<ICheckInBean>> res;
     for(const auto &it: checkInDAO->getCheckInsBean()) {
-        std::tm checkData = it.getDataHora();
+        std::tm checkData = it->getDataHora();
         std::time_t tCheck = std::mktime(&checkData);
         if (tCheck >= tInicio && tCheck <= tFim) {
-            res.push_back(it);
+            res.push_back(std::make_unique<ICheckInBean>(it));
         }
     }
     return res;

@@ -81,6 +81,15 @@
         "thread": "cpp",
         "xtree": "cpp",
         "condition_variable": "cpp",
-        "semaphore": "cpp"
+        "semaphore": "cpp",
+        "any": "cpp",
+        "cstdarg": "cpp",
+        "list": "cpp",
+        "set": "cpp",
+        "unordered_set": "cpp",
+        "queue": "cpp",
+        "ranges": "cpp",
+        "stdfloat": "cpp",
+        "cinttypes": "cpp"
     }
 }

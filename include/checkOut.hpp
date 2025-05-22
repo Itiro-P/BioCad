@@ -8,7 +8,7 @@
 #include <memory>
 #include <chrono>
 #include <enums.hpp>
-
+z
 class CheckOutBean {
     std::string cpfCliente = "";
     std::tm dataHora;
